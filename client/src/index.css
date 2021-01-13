@@ -4,3 +4,91 @@ main {
 .categoryName:hover {
     text-decoration: underline;
 }
+
+hr {
+    height: 1px;
+    color: #eee;
+    width: 100%;
+}
+
+.notmatch {
+    width:100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.progress {
+    background-color:#f5f5f5;
+    height: 2.3rem;
+    border-radius: 1rem;
+    margin-bottom: 3rem;
+}
+
+.progress__list {
+    counter-reset: progress 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    list-style: none;
+    font-size: 0.85rem;
+}
+
+.progress__item {
+    display: flex;
+    align-items: center;
+}
+
+.progress__item::before{
+    content: counter(progress);
+    counter-increment: progress 1;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 1px solid;
+    color: #bbb;
+    margin-right: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.progress__item:not(:last-of-type)::after {
+    content: '';
+    width: 280px;
+    height: 6px;
+    background-color: #fff;
+    display: inline-block;
+    margin-left: 10px;
+    border-radius: 10px;
+    transition: all 0.5s ease;
+}
+
+.progress__item-active::before{
+    background-color: green;
+    color: #fff;
+    border:none;
+}
+
+.payment__option {
+    width: 6rem;
+    height: 5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+}
+
+.payment__option i {
+    font-size: 4rem;
+}
+
+.payBtn {
+    position: absolute;
+    bottom:4rem;
+    right:4rem;
+}

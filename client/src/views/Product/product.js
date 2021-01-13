@@ -1,64 +1,31 @@
-import products from '../../products'
-import {useParams} from 'react-router-dom'
-import Rating from '../../components/Rating/rating'
-import {Row, Col, ListGroup, ListGroupItem, Button, Image} from 'react-bootstrap'
+import {useEffect} from 'react'
+import {useParams, useHistory} from 'react-router-dom'
+import {Button} from 'react-bootstrap'
+import * as productsActions from '../../store/productStore/actions'
+import {useProductDispatch, useProductState} from '../../store/productStore/product'
+import ProductDetails from '../../components/ProductDetails/productDetails'
+import Loading from '../../components/Loading/loading'
+import Alert from '../../components/Alert/alert'
 
 const Product = (props) => {
+    const dispatch = useProductDispatch()
+    const routerHistory = useHistory()
+    const {product, loading, error} =  useProductState()
     const {id} = useParams()
-    const {name, 
-           image, 
-           description, 
-           price, 
-           countInStock, 
-           rating, 
-           numReviews} = products.find(p => p._id === id)
+    const routerGoBack = () => routerHistory.goBack()
+    useEffect(() => {
+        productsActions.fetchOne(dispatch, id)
+    },[dispatch, id])
 
-    return ( 
+    return (
         <div className="product">
-            <Row>
-                <Col md={5}>
-                    <Image src={image} rounded  fluid/>
-                </Col>
-                <Col md={4}>
-                    <ListGroup variant="flush">
-                        <ListGroupItem>
-                            <h4>{name}</h4>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <Rating rating={rating} review={`${numReviews} reviews`}/>   
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            Price: ${price}
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            Description: {description}
-                        </ListGroupItem>
-                    </ListGroup>
-                </Col>
-                <Col md={3}>
-                    <ListGroup>
-                        <ListGroupItem>
-                            <Row>
-                                <Col>Price: </Col>
-                                <Col>${price}</Col>
-                            </Row>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <Row>
-                                <Col>Quantity: </Col>
-                                <Col>{countInStock > 0 ? (countInStock > 1 ? `${countInStock} Units`:`${countInStock} Unit`): 'Out of Stock'}</Col>
-                            </Row>
-                        </ListGroupItem>
-                        <ListGroupItem>
-                            <Row>
-                                <Col>
-                                    <Button variant="dark" block disabled={countInStock === 0}> Add to Cart </Button>
-                                </Col>
-                            </Row>
-                        </ListGroupItem>
-                    </ListGroup>
-                </Col>
-            </Row>
+            <Button variant="light" className='mb-4 px-2' onClick={routerGoBack}>
+                <i className='fas fa-arrow-left pr-2'></i> 
+                BACK
+            </Button>
+            {loading ? <Loading /> 
+            : error ? <Alert type='danger'>{error}</Alert>
+            : product && <ProductDetails product={product}/>}
         </div> 
     );
 }
