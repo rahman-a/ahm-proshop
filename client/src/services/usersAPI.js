@@ -8,10 +8,25 @@ const usersAPI = {
         return API().post('users/login', credential)
     },
     logout(){
-        return API().post('/users/logout')
+        return API().post('users/logout')
     },
-    update(credential){
-        return API().patch('/users/update', credential)
+    update(data){
+        return API().patch('users/update', data)
+    },
+    pay(amount){
+        return API().post('users/payment_intent', amount)
+    },
+    index(){
+        return API().get('users/index')
+    },
+    info(id){
+        return API().get(`users/info/${id}`)
+    },
+    delete(id){
+        return API().delete(`users/delete/${id}`)
+    },
+    setAsAdmin(id){
+        return API().patch(`users/setAdmin/${id}`)
     }
 }
 

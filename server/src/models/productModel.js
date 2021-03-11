@@ -11,8 +11,12 @@ const reviewSchema = new mongoose.Schema({
         default:0
     },
     comment:{
-        type:String,
-        required:true
+        type:String
+    },
+    user:{
+        type:mongoose.Schema.Types.ObjectId,
+        required:true,
+        ref:'User'
     }
 },{timestamps:true})
 
@@ -27,6 +31,10 @@ const productSchema = new mongoose.Schema({
         required:true
     },
     image:{
+        type:Buffer,
+        required:true,
+    },
+    imageType:{
         type:String,
         required:true,
     },
@@ -68,7 +76,12 @@ const productSchema = new mongoose.Schema({
     timestamps:true
 })
 
-
+productSchema.methods.toJSON = function(){
+    const productObject = this.toObject()
+    productObject.image = `data:${this.imageType};UTF-8;base64,${this.image.toString('base64')}`
+    delete productObject.imageType
+    return productObject
+}
 const Product = mongoose.model('Product', productSchema)
 
 export default Product

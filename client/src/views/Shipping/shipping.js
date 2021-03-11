@@ -1,28 +1,49 @@
 import {useState, useEffect} from 'react'
-import CheckoutProgress from '../checkoutProgress/checkoutProgress'
+import {useHistory} from 'react-router-dom'
+import CheckoutProgress from '../../components/checkoutProgress/checkoutProgress'
 import {Row, Col, Form, Button} from 'react-bootstrap'
 import {countries} from 'countries-list'
 
-const Shipping = ({stepChange}) => {
+const Shipping = () => {
     const [address, setAddress] = useState('')
     const [city, setCity] = useState('')
     const [postalCode, setPostalCode] = useState('')
     const [country, setCountry] = useState('')
     const [countriesList, setCountriesList] = useState([])
+    const history = useHistory()
 
-    const submitHandler = (e) => {
+    const setAddressHandler = (e) => {
         e.preventDefault()
+        let code;
+        countriesList.forEach(coun => {
+            if(coun.name === country){
+                code = coun.code 
+            }
+        })
+        const addressDetails = {address,city,postalCode,country,code}
+        localStorage.setItem('client_address', JSON.stringify(addressDetails))
+       history.push('/payment')
     }
-    const setAddressHandler = () => {
-        stepChange('payment')
-    }
-    console.log(countriesList)
-    useEffect(() => {
+    const listCountries = () =>{
         const list = []
         for(let key in countries){
            list.push({code:key, name:countries[key].name})
         }
         setCountriesList(list)
+    }
+
+    const getAddress = () =>{
+        const address = JSON.parse(localStorage.getItem('client_address'))
+        if(address){
+            setAddress(address.address)
+            setCity(address.city)
+            setPostalCode(address.postalCode)
+            setCountry(address.country)
+        }
+    }
+    useEffect(() => {
+        listCountries()
+        getAddress()
     },[])
     return ( 
         <div className="shipping">
@@ -30,9 +51,9 @@ const Shipping = ({stepChange}) => {
         <Row className="justify-content-md-center">
         <Col md={6} xm={12}>
         <h2 className="py-3">Shipping Address</h2>
-            <Form onSubmit={submitHandler}>
+            <Form>
                 <Form.Group>
-                    <Form.Label>Enter Your address &#x1F1E6;</Form.Label>
+                    <Form.Label>Enter Your address</Form.Label>
                     <Form.Control type='text' 
                     placeholder="Your address"
                     value={address}
@@ -65,7 +86,7 @@ const Shipping = ({stepChange}) => {
                     value={country}
                     onChange={(e) => setCountry(e.target.value)}
                    >
-                    <option className='country' selected>Select Your Country</option>
+                    <option className='country' defaultValue>Select Your Country</option>
                     {countriesList && countriesList.map(country => 
                        <option key={country.code} value={country.name}>{country.name}</option>
                     )}

@@ -24,6 +24,7 @@ const orderSchema = new mongoose.Schema({
         city:{type:String, required:true},
         postalCode:{type:String, required:true},
         country:{type:String, required:true},
+        code:{type:String, required:true},
     },
     paymentMethod:{
         type:String,
@@ -33,7 +34,9 @@ const orderSchema = new mongoose.Schema({
         id:{type:String},
         status:{type:String},
         update_time:{type:String},
-        email_address:{type:String},
+        card_type:{type:String},
+        card_last4:{type:String},
+        card_exp_year:{type:String},
     },
     taxPrice:{
         type:Number,

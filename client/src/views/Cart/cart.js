@@ -22,9 +22,12 @@ const Cart = (props) => {
         addItemTOCart(dispatch, id, Number(quantity))
     }
     const checkOut = () => {
-       routerHistory.push('/checkout')
+       routerHistory.push('/shipping')
     }
-
+    const calcTotalPrice = () => {
+       const total =  items.reduce((acc, item) => acc + item.quantity * item.price,0)
+       return total.toFixed(2)
+    }
     useEffect(() => {
         if(id) {
             user ? addItemTOCart(dispatch, id,  Number(quantity),user.user._id)
@@ -53,7 +56,7 @@ const Cart = (props) => {
                                     <h5>Sub Total Items (
                                         {items.reduce((acc, item) => acc + item.quantity, 0)}
                                         )</h5>
-                                    Total Price: {items.reduce((acc, item) => acc + item.quantity * item.price, 0)}$
+                                    Total Price: {calcTotalPrice()}$
                                 </Col>
                             </Row>
                         </ListGroupItem>

@@ -4,6 +4,8 @@ import {useHistory} from 'react-router-dom'
 import {useLoginstate, useLoginDispatch} from '../../store/userStore/login'
 import {useUpdateUserDispatch, useUpdateUserstate} from '../../store/userStore/update'
 import {updateUserProfile} from '../../store/userStore/action'
+import {OrdersProvider} from '../../store/orderStore/allOrders'
+import UserOrders from '../../components/AllUserOrders/allUserOrders'
 import Alert from '../../components/Alert/alert'
 import Loading from '../../components/Loading/loading'
 
@@ -43,7 +45,7 @@ const Register = (props) => {
     },[user, history])
     return ( 
         <Row className="justify-content-md-center">
-        <Col md={4}>
+        <Col md={3}>
             <h1 className="py-3">Profile</h1>
             {success && <Alert type="success">Profile has been updated</Alert>}
             {error && <Alert type="danger">{error}</Alert>}
@@ -89,8 +91,10 @@ const Register = (props) => {
                 <Button type="submit" variant="dark" className="mt-2">Update</Button>
             </Form>
         </Col>
-        <Col md={8}>
-            <h1 className="py-3">Orders</h1>
+        <Col md={9}>
+            <OrdersProvider>
+                <UserOrders />
+            </OrdersProvider>
         </Col>
     </Row>
      );

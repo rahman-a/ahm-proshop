@@ -4,6 +4,7 @@ import Rating from '../../components/Rating/rating'
 
 const ProductCard = ({product}) => {
     const {_id, image, name, price, category, rating, numReviews} = product
+    
     return ( 
         <Card style={{ width: '18rem' }} className="my-2">
             <LinkContainer to={`/product/${_id}`}>

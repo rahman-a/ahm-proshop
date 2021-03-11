@@ -11,7 +11,10 @@ const productsReducer = (state, action) => {
         case PRODUCTS_ALL_REQUEST:
             return {...state, loading:true, products:[]}
         case PRODUCTS_ALL_SUCCESS:
-            return {...state, loading:false, products:action.payload}
+            return {...state, 
+                loading:false, error:null, 
+                products:action.payload, page:action.page, 
+                pageSize:action.size, count:action.count}
         case PRODUCTS_ALL_FAIL:
             return {...state, loading:false, error:action.payload}
         default:

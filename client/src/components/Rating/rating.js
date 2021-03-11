@@ -49,7 +49,7 @@ Rating.defaultProps = {
 
 Rating.propsType = {
     rating: propsType.number.isRequired,
-    review: propsType.string.isRequired,
+    review: propsType.string,
     color:propsType.string
 }
 
