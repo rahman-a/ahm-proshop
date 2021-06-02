@@ -10,8 +10,8 @@ import orderRouter from './routers/orderRouter.js'
 import {notFound, errorHandler} from './middleware/errorHandler.js'
 
 
-const app = express()
 dotenv.config()
+const app = express()
 connectDB()
 
 app.use(bodyParser.json({limit:'50mb'}))
