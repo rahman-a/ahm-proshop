@@ -13,15 +13,15 @@ mongoDB()
 const importData = async _ => {
     try {
         await User.deleteMany();
-        await Product.deleteMany();
-        await Order.deleteMany();
+        // await Product.deleteMany();
+        // await Order.deleteMany();
 
-        const createdUsers = await User.insertMany(users)
-        const admin = createdUsers.find(user => user.isAdmin === true)
-        const sampleProducts = products.map(product => {
-            return {...product, user:admin._id}
-        })
-        await Product.insertMany(sampleProducts)
+        await User.insertMany(users)
+        // const admin = createdUsers.find(user => user.isAdmin === true)
+        // const sampleProducts = products.map(product => {
+        //     return {...product, user:admin._id}
+        // })
+        // await Product.insertMany(sampleProducts)
         console.log(chalk.green.bold.underline('Data Imported Successfully'))
         process.exit()
     } catch (error) {
